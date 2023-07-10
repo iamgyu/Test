@@ -1,5 +1,6 @@
 package com.example.todo;
 
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,27 +14,27 @@ public class TodoController {
     private TodoService todoService;
 
     @PostMapping("")
-    public TodoDto input(@RequestBody TodoDto todoDto){
-        return todoService.inputTodo(todoDto);
+    public void input(@RequestBody TodoDto todoDto){
+        todoService.inputTodo(todoDto);
     }
 
     @GetMapping("")
-    public List<TodoDto> inquireAll(){
+    public JSONObject inquireAll(){
         return todoService.getAllTodos();
     }
 
-    @GetMapping("/{id}")
-    public TodoDto inquire(@PathVariable int id){
-        return todoService.getTodoById(id);
+    @GetMapping("/{pk}")
+    public JSONObject inquire(@PathVariable int pk){
+        return todoService.getTodoById(pk);
     }
 
-    @PatchMapping("/{id}")
-    public void update(@PathVariable int id, @RequestBody TodoDto todoDto){
-        todoService.updateTodo(id, todoDto);
+    @PatchMapping("/{pk}")
+    public void update(@PathVariable int pk, @RequestBody TodoDto todoDto){
+        todoService.updateTodo(pk, todoDto);
     }
 
-    @DeleteMapping("/{id}")
-    public void remove(@PathVariable int id){
-        todoService.removeTodo(id);
+    @DeleteMapping("/{pk}")
+    public void remove(@PathVariable int pk){
+        todoService.removeTodo(pk);
     }
 }

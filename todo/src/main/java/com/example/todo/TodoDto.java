@@ -1,14 +1,12 @@
 package com.example.todo;
 
 public class TodoDto {
-    private int id;
     private String title;
     private String detail;
     private boolean done;
 
     public TodoDto() {}
-    public TodoDto(int id, String title, String detail){
-        this.id = id;
+    public TodoDto(String title, String detail){
         this.title = title;
         this.detail = detail;
         this.done = false;
@@ -20,14 +18,6 @@ public class TodoDto {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getDetail() {
