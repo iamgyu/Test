@@ -16,8 +16,8 @@ public class TodoDao {
         return todo_sqlite.selectDB();
     }
 
-    public JSONObject getTodoById(int pk) {
-        return todo_sqlite.selectOneDB(pk);
+    public JSONObject getTodoById(TodoDto todoDto) {
+        return todo_sqlite.selectOneDB(todoDto);
     }
 
     public void inputTodo(TodoDto todoDto){
@@ -28,7 +28,7 @@ public class TodoDao {
         todo_sqlite.updateDB(pk, todoDto);
     }
 
-    public void deleteTodo(int pk){
-        todo_sqlite.deleteDB(pk);
+    public void deleteTodo(int pk, TodoDto todoDto){
+        todo_sqlite.deleteDB(pk, todoDto);
     }
 }

@@ -4,12 +4,33 @@ public class TodoDto {
     private String title;
     private String detail;
     private boolean done;
+    private String id;
+    private String password;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
 
     public TodoDto() {}
-    public TodoDto(String title, String detail){
+    public TodoDto(String title, String detail, String id, String password){
         this.title = title;
         this.detail = detail;
         this.done = false;
+        this.id = id;
+        this.password = password;
     }
 
     public String getTitle() {

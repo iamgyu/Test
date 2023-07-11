@@ -1,6 +1,8 @@
 package com.example.todo;
 
 import org.json.simple.JSONObject;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.sql.*;
 import java.util.HashMap;
@@ -54,5 +56,27 @@ public class Member_Sqlite {
 
         JSONObject jsonObject = new JSONObject(map);
         return jsonObject;
+    }
+
+    public int checkMember(String id, String password){
+        try {
+            Connection conn = DriverManager.getConnection(DB_URL);
+            Statement stmt = conn.createStatement();
+            String sql = "SELECT pk FROM members WHERE id = '" + id + "' AND password = '" + password + "';";
+            ResultSet rs = stmt.executeQuery(sql);
+            int result = rs.getInt(1);
+
+            rs.close();
+            stmt.close();
+            conn.close();
+
+            if (result == 0){
+                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+            }
+
+            return result;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

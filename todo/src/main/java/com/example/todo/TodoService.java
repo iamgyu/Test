@@ -16,8 +16,8 @@ public class TodoService {
         return todoDao.getAllTodos();
     }
 
-    public JSONObject getTodoById(int pk){
-        return todoDao.getTodoById(pk);
+    public JSONObject getTodoById(TodoDto todoDto){
+        return todoDao.getTodoById(todoDto);
     }
 
     public void inputTodo(TodoDto todoDto){
@@ -28,7 +28,7 @@ public class TodoService {
         todoDao.updateTodo(pk, todoDto);
     }
 
-    public void removeTodo(int id){
-        todoDao.deleteTodo(id);
+    public void removeTodo(int pk, TodoDto todoDto){
+        todoDao.deleteTodo(pk, todoDto);
     }
 }
