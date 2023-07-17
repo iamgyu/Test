@@ -6,6 +6,15 @@ public class TodoDto {
     private boolean done;
     private String id;
     private String password;
+    private String encodeData;
+
+    public String getEncodeData() {
+        return encodeData;
+    }
+
+    public void setEncodeData(String encodeData) {
+        this.encodeData = encodeData;
+    }
 
     public String getId() {
         return id;
@@ -25,12 +34,13 @@ public class TodoDto {
 
 
     public TodoDto() {}
-    public TodoDto(String title, String detail, String id, String password){
+    public TodoDto(String title, String detail, String id, String password, String encodeData){
         this.title = title;
         this.detail = detail;
         this.done = false;
         this.id = id;
         this.password = password;
+        this.encodeData = encodeData;
     }
 
     public String getTitle() {
