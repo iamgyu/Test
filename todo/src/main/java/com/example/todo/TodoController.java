@@ -17,8 +17,8 @@ public class TodoController {
     private Todo_Sqlite todo_sqlite = new Todo_Sqlite();    // drop table 을 위한 일회용
 
     @PostMapping("")
-    public void input(@RequestBody TodoDto todoDto){
-        todoService.inputTodo(todoDto);
+    public void input(@RequestHeader("Authorization") String encodeData, @RequestBody TodoDto todoDto){
+        todoService.inputTodo(encodeData, todoDto);
     }
 
     @GetMapping("/all")
@@ -27,18 +27,18 @@ public class TodoController {
     }
 
     @GetMapping("")
-    public JSONObject inquire(@RequestBody TodoDto todoDto){
-        return todoService.getTodoById(todoDto);
+    public JSONObject inquire(@RequestHeader("Authorization") String encodeData){
+        return todoService.getTodoById(encodeData);
     }
 
     @PatchMapping("/{pk}")
-    public void update(@PathVariable int pk, @RequestBody TodoDto todoDto){
-        todoService.updateTodo(pk, todoDto);
+    public void update(@PathVariable int pk, @RequestHeader("Authorization") String encodeData, @RequestBody TodoDto todoDto){
+        todoService.updateTodo(pk, encodeData, todoDto);
     }
 
     @DeleteMapping("/{pk}")
-    public void remove(@PathVariable int pk, @RequestBody TodoDto todoDto){
-        todoService.removeTodo(pk, todoDto);
+    public void remove(@PathVariable int pk, @RequestHeader("Authorization") String encodeData){
+        todoService.removeTodo(pk, encodeData);
     }
 
     // drop table 을 위한 일회용 코드

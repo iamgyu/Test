@@ -16,19 +16,19 @@ public class TodoDao {
         return todo_sqlite.selectDB();
     }
 
-    public JSONObject getTodoById(TodoDto todoDto) {
-        return todo_sqlite.selectOneDB(todoDto);
+    public JSONObject getTodoById(String encodeData) {
+        return todo_sqlite.selectOneDB(encodeData);
     }
 
-    public void inputTodo(TodoDto todoDto){
-        todo_sqlite.insertDB(todoDto);
+    public void inputTodo(String encodeData, TodoDto todoDto){
+        todo_sqlite.insertDB(encodeData, todoDto);
     }
 
-    public void updateTodo(int pk, TodoDto todoDto){
-        todo_sqlite.updateDB(pk, todoDto);
+    public void updateTodo(int pk, String encodeData, TodoDto todoDto){
+        todo_sqlite.updateDB(pk, encodeData, todoDto);
     }
 
-    public void deleteTodo(int pk, TodoDto todoDto){
-        todo_sqlite.deleteDB(pk, todoDto);
+    public void deleteTodo(int pk, String encodeData){
+        todo_sqlite.deleteDB(pk, encodeData);
     }
 }

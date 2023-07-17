@@ -15,7 +15,7 @@ public class Todo_Sqlite {
     public static final String DB_URL = "jdbc:sqlite:todo.db";
     private Member_Sqlite member_sqlite = new Member_Sqlite();
 
-    public void insertDB(TodoDto todoDto){
+    public void insertDB(String encodeData, TodoDto todoDto){
         try {
             Connection conn = DriverManager.getConnection(DB_URL);
             Statement stmt = conn.createStatement();
@@ -25,7 +25,7 @@ public class Todo_Sqlite {
             stmt.executeUpdate(sql);
             stmt.close();
 
-            String[] resultDecode = Base64Decoder(todoDto.getEncodeData());
+            String[] resultDecode = Base64Decoder(encodeData);
             String id = resultDecode[0];
             String pwd = resultDecode[1];
 
@@ -78,13 +78,13 @@ public class Todo_Sqlite {
          return jsonObject;
     }
 
-    public JSONObject selectOneDB(TodoDto todoDto){
+    public JSONObject selectOneDB(String encodeData){
         Map<String, Object> map = new HashMap<>();
         try {
             Connection conn = DriverManager.getConnection(DB_URL);
             Statement stmt = conn.createStatement();
 
-            String[] resultDecode = Base64Decoder(todoDto.getEncodeData());
+            String[] resultDecode = Base64Decoder(encodeData);
             String id = resultDecode[0];
             String pwd = resultDecode[1];
 
@@ -119,12 +119,12 @@ public class Todo_Sqlite {
         return jsonObject;
     }
 
-    public void updateDB(int pk, TodoDto todoDto){
+    public void updateDB(int pk, String encodeData, TodoDto todoDto){
         try {
             Connection conn = DriverManager.getConnection(DB_URL);
             Statement stmt = conn.createStatement();
 
-            String[] resultDecode = Base64Decoder(todoDto.getEncodeData());
+            String[] resultDecode = Base64Decoder(encodeData);
             String id = resultDecode[0];
             String pwd = resultDecode[1];
 
@@ -164,12 +164,12 @@ public class Todo_Sqlite {
         }
     }
 
-    public void deleteDB(int pk, TodoDto todoDto){
+    public void deleteDB(int pk, String encodeData){
         try {
             Connection conn = DriverManager.getConnection(DB_URL);
             Statement stmt = conn.createStatement();
 
-            String[] resultDecode = Base64Decoder(todoDto.getEncodeData());
+            String[] resultDecode = Base64Decoder(encodeData);
             String id = resultDecode[0];
             String pwd = resultDecode[1];
 

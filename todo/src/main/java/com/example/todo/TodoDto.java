@@ -6,6 +6,7 @@ public class TodoDto {
     private boolean done;
     private String id;
     private String password;
+    /*
     private String encodeData;
 
     public String getEncodeData() {
@@ -15,7 +16,7 @@ public class TodoDto {
     public void setEncodeData(String encodeData) {
         this.encodeData = encodeData;
     }
-
+    */
     public String getId() {
         return id;
     }
@@ -40,7 +41,7 @@ public class TodoDto {
         this.done = false;
         this.id = id;
         this.password = password;
-        this.encodeData = encodeData;
+        // this.encodeData = encodeData;
     }
 
     public String getTitle() {
