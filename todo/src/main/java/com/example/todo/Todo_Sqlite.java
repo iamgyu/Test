@@ -15,7 +15,7 @@ public class Todo_Sqlite {
     public static final String DB_URL = "jdbc:sqlite:todo.db";
     private Member_Sqlite member_sqlite = new Member_Sqlite();
 
-    public void insertDB(String encodeData, TodoDto todoDto){
+    public void insertDB(String uuid, TodoDto todoDto){
         try {
             Connection conn = DriverManager.getConnection(DB_URL);
             Statement stmt = conn.createStatement();
@@ -25,12 +25,15 @@ public class Todo_Sqlite {
             stmt.executeUpdate(sql);
             stmt.close();
 
+            /*
             String[] resultDecode = Base64Decoder(encodeData);
             String id = resultDecode[0];
             String pwd = resultDecode[1];
 
             int check_member = member_sqlite.checkMember(id, pwd);   // return member pk
+            */
 
+            int check_member = member_sqlite.checkMembeUUID(uuid);
             if(check_member != 0) {
                 PreparedStatement pstmt = conn.prepareStatement("INSERT INTO todos(title, detail, done, account_id) VALUES(?, ?, ?, ?)");
                 pstmt.setString(1, todoDto.getTitle());
@@ -78,18 +81,21 @@ public class Todo_Sqlite {
          return jsonObject;
     }
 
-    public JSONObject selectOneDB(String encodeData){
+    public JSONObject selectOneDB(String uuid){
         Map<String, Object> map = new HashMap<>();
         try {
             Connection conn = DriverManager.getConnection(DB_URL);
             Statement stmt = conn.createStatement();
 
+            /*
             String[] resultDecode = Base64Decoder(encodeData);
             String id = resultDecode[0];
             String pwd = resultDecode[1];
 
             int check_member = member_sqlite.checkMember(id, pwd);   // return member pk
+            */
 
+            int check_member = member_sqlite.checkMembeUUID(uuid);  // return member pk
             ResultSet rs = stmt.executeQuery("SELECT * FROM todos WHERE account_id = " + check_member + ";");
 
             while (rs.next()) {
@@ -119,16 +125,18 @@ public class Todo_Sqlite {
         return jsonObject;
     }
 
-    public void updateDB(int pk, String encodeData, TodoDto todoDto){
+    public void updateDB(int pk, String uuid, TodoDto todoDto){
         try {
             Connection conn = DriverManager.getConnection(DB_URL);
             Statement stmt = conn.createStatement();
-
+            /*
             String[] resultDecode = Base64Decoder(encodeData);
             String id = resultDecode[0];
             String pwd = resultDecode[1];
 
             int check_member = member_sqlite.checkMember(id, pwd);   // return member pk
+             */
+            int check_member = member_sqlite.checkMembeUUID(uuid);
             String checkSql = "SELECT account_id FROM todos WHERE pk = " + pk + ";";
             ResultSet rs = stmt.executeQuery(checkSql);
             int check_account_id = rs.getInt(1);    // 해당 할 일에 대한 account_id 반환
@@ -164,16 +172,20 @@ public class Todo_Sqlite {
         }
     }
 
-    public void deleteDB(int pk, String encodeData){
+    public void deleteDB(int pk, String uuid){
         try {
             Connection conn = DriverManager.getConnection(DB_URL);
             Statement stmt = conn.createStatement();
 
+            /*
             String[] resultDecode = Base64Decoder(encodeData);
             String id = resultDecode[0];
             String pwd = resultDecode[1];
 
             int check_member = member_sqlite.checkMember(id, pwd);   // return member pk
+             */
+
+            int check_member = member_sqlite.checkMembeUUID(uuid);
             String checkSql = "SELECT account_id FROM todos WHERE pk = " + pk + ";";
             ResultSet rs = stmt.executeQuery(checkSql);
             int check_account_id = rs.getInt(1);    // 해당 할 일에 대한 account_id 반환
