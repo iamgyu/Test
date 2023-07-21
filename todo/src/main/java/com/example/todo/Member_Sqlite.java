@@ -80,11 +80,11 @@ public class Member_Sqlite {
         }
     }
 
-    public int checkMembeUUID(String uuid){
+    public int checkMemberId(String id){
         try {
             Connection conn = DriverManager.getConnection(DB_URL);
             Statement stmt = conn.createStatement();
-            String sql = "SELECT pk FROM members WHERE id = '" + uuid + "';";
+            String sql = "SELECT pk FROM members WHERE id = '" + id + "';";
             ResultSet rs = stmt.executeQuery(sql);
             int result = rs.getInt(1);
 
@@ -100,20 +100,5 @@ public class Member_Sqlite {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-    }
-    public void changeUUID(String id, String uuid){
-        Connection conn = null;
-        try {
-            conn = DriverManager.getConnection(DB_URL);
-            Statement stmt = conn.createStatement();
-            String sql = "UPDATE members SET id = '" + uuid + "' WHERE id = '" + id + "';";
-
-            stmt.executeUpdate(sql);
-            stmt.close();
-            conn.close();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
     }
 }

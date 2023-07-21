@@ -14,6 +14,7 @@ import java.util.Map;
 public class Todo_Sqlite {
     public static final String DB_URL = "jdbc:sqlite:todo.db";
     private Member_Sqlite member_sqlite = new Member_Sqlite();
+    Map<String, String> mapping = MemberDto.mapping;
 
     public void insertDB(String uuid, TodoDto todoDto){
         try {
@@ -26,14 +27,23 @@ public class Todo_Sqlite {
             stmt.close();
 
             /*
-            String[] resultDecode = Base64Decoder(encodeData);
+            String[] resultDecode = Base64Decoder(uuid);
             String id = resultDecode[0];
             String pwd = resultDecode[1];
 
             int check_member = member_sqlite.checkMember(id, pwd);   // return member pk
             */
 
-            int check_member = member_sqlite.checkMembeUUID(uuid);
+            String id = null;
+            for(Map.Entry<String, String> entry : mapping.entrySet()){
+                if(entry.getValue().equals(uuid)){
+                    id = entry.getKey();
+                    break;
+                }
+            }
+
+            int check_member = member_sqlite.checkMemberId(id);
+
             if(check_member != 0) {
                 PreparedStatement pstmt = conn.prepareStatement("INSERT INTO todos(title, detail, done, account_id) VALUES(?, ?, ?, ?)");
                 pstmt.setString(1, todoDto.getTitle());
@@ -95,7 +105,16 @@ public class Todo_Sqlite {
             int check_member = member_sqlite.checkMember(id, pwd);   // return member pk
             */
 
-            int check_member = member_sqlite.checkMembeUUID(uuid);  // return member pk
+            String id = null;
+            for(Map.Entry<String, String> entry : mapping.entrySet()){
+                if(entry.getValue().equals(uuid)){
+                    id = entry.getKey();
+                    break;
+                }
+            }
+
+            int check_member = member_sqlite.checkMemberId(id);
+
             ResultSet rs = stmt.executeQuery("SELECT * FROM todos WHERE account_id = " + check_member + ";");
 
             while (rs.next()) {
@@ -129,14 +148,25 @@ public class Todo_Sqlite {
         try {
             Connection conn = DriverManager.getConnection(DB_URL);
             Statement stmt = conn.createStatement();
+
             /*
             String[] resultDecode = Base64Decoder(encodeData);
             String id = resultDecode[0];
             String pwd = resultDecode[1];
 
             int check_member = member_sqlite.checkMember(id, pwd);   // return member pk
-             */
-            int check_member = member_sqlite.checkMembeUUID(uuid);
+           */
+
+            String id = null;
+            for(Map.Entry<String, String> entry : mapping.entrySet()){
+                if(entry.getValue().equals(uuid)){
+                    id = entry.getKey();
+                    break;
+                }
+            }
+
+            int check_member = member_sqlite.checkMemberId(id);
+
             String checkSql = "SELECT account_id FROM todos WHERE pk = " + pk + ";";
             ResultSet rs = stmt.executeQuery(checkSql);
             int check_account_id = rs.getInt(1);    // 해당 할 일에 대한 account_id 반환
@@ -183,9 +213,18 @@ public class Todo_Sqlite {
             String pwd = resultDecode[1];
 
             int check_member = member_sqlite.checkMember(id, pwd);   // return member pk
-             */
+            */
 
-            int check_member = member_sqlite.checkMembeUUID(uuid);
+            String id = null;
+            for(Map.Entry<String, String> entry : mapping.entrySet()){
+                if(entry.getValue().equals(uuid)){
+                    id = entry.getKey();
+                    break;
+                }
+            }
+
+            int check_member = member_sqlite.checkMemberId(id);
+
             String checkSql = "SELECT account_id FROM todos WHERE pk = " + pk + ";";
             ResultSet rs = stmt.executeQuery(checkSql);
             int check_account_id = rs.getInt(1);    // 해당 할 일에 대한 account_id 반환

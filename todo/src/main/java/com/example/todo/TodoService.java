@@ -16,19 +16,19 @@ public class TodoService {
         return todoDao.getAllTodos();
     }
 
-    public JSONObject getTodoById(String encodeData){
-        return todoDao.getTodoById(encodeData);
+    public JSONObject getTodoById(String uuid){
+        return todoDao.getTodoById(uuid);
     }
 
-    public void inputTodo(String encodeData, TodoDto todoDto){
-        todoDao.inputTodo(encodeData, todoDto);
+    public void inputTodo(String uuid, TodoDto todoDto){
+        todoDao.inputTodo(uuid, todoDto);
     }
 
-    public void updateTodo(int pk, String encodeData, TodoDto todoDto){
-        todoDao.updateTodo(pk, encodeData, todoDto);
+    public void updateTodo(int pk, String uuid, TodoDto todoDto){
+        todoDao.updateTodo(pk, uuid, todoDto);
     }
 
-    public void removeTodo(int pk, String encodeData){
-        todoDao.deleteTodo(pk, encodeData);
+    public void removeTodo(int pk, String uuid){
+        todoDao.deleteTodo(pk, uuid);
     }
 }
