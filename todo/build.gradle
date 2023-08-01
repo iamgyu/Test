@@ -14,6 +14,7 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.projectlombok:lombok:1.18.26'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
@@ -22,14 +23,8 @@ dependencies {
 		exclude group: "org.hamcrest", module: "hamcrest-core"
 	}
 
-	// JPA
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-
 	implementation 'com.googlecode.json-simple:json-simple:1.1.1'
 	implementation 'org.xerial:sqlite-jdbc:3.39.3.0'
-
-	//security
-	implementation 'org.springframework.boot:spring-boot-starter-security'
 
 	// jwt
 	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
