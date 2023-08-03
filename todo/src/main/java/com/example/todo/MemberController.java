@@ -7,24 +7,30 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/members")
 public class MemberController {
-    private final Member_Sqlite memberSqlite = new Member_Sqlite();
+
     @Autowired
-    private JwtTokenProvider jwtTokenProvider;
-    @PostMapping("/login")
-    public String login(@RequestBody MemberDto memberDto){
-        if(Integer.valueOf(memberSqlite.checkMember(memberDto.getId(), memberDto.getPassword())) != null){
-            return jwtTokenProvider.generateToken(memberDto.getId());
-        }
-        return null;
-    }
+    private MemberService memberService;
 
     @PostMapping("")
     public void input(@RequestBody MemberDto memberDto){
-        memberSqlite.inputMember(memberDto.getId(), memberDto.getPassword());
+        memberService.inputMember(memberDto.getId(), memberDto.getPassword());
     }
 
     @GetMapping("")
     public JSONObject read(){
-        return memberSqlite.readMember();
+        return memberService.readMember();
+    }
+
+    @PostMapping("/login")
+    public JSONObject login(@RequestBody MemberDto memberDto){
+        if(Integer.valueOf(memberService.checkMember(memberDto.getId(), memberDto.getPassword())) != null){
+            return memberService.login(memberDto.getId());
+        }
+        return null;
+    }
+
+    @PostMapping("/refresh")
+    public JSONObject refresh(@RequestHeader("Authorization") String refreshToken){
+        return memberService.refresh(refreshToken);
     }
 }

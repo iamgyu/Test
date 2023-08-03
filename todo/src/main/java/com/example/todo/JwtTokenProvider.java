@@ -14,31 +14,67 @@ public class JwtTokenProvider {
     private String jwt_secret;
 
     // jwt 토큰 생성
-    public String generateToken(String id){
+    private String generateToken(String id, String tokenType, Date expireDate){
         Date now = new Date();
-        Date expireDate = new Date(now.getTime() + 3600000);
 
         return Jwts.builder()
                 .setHeaderParam(Header.TYPE, Header.JWT_TYPE)
                 .setIssuedAt(now)
                 .setExpiration(expireDate)
                 .claim("id", id)
+                .claim("tokenType", tokenType)
                 .signWith(SignatureAlgorithm.HS256, jwt_secret)
                 .compact();
     }
 
-    // jwt 토큰에서 아이디 추출
-    public String getUserIdFromJWT(String token){
+    public String generateAccessToken(String id){
+        Date now = new Date();
+        Date expireDate = new Date(now.getTime() + 3600000);
+
+        return generateToken(id, "accessToken", expireDate);
+    }
+
+    public String generateRefreshToken(String id){
+        Date now = new Date();
+        Date expireDate = new Date(now.getTime() + 2592000000L);
+
+        return generateToken(id, "refreshToken", expireDate);
+    }
+
+    public Claims parseJwtToken(String token){
         validateToken(token);
-        Claims claims = Jwts.parser()
+
+        return Jwts.parser()
                 .setSigningKey(jwt_secret)
                 .parseClaimsJws(token)
                 .getBody();
+    }
 
+    // jwt 토큰에서 아이디 추출
+    public String getUserIdFromJWT(String token){
+        Claims claims = parseJwtToken(token);
         return (String) claims.get("id");
     }
 
-    // Jwt 토큰 유효성 검사
+    // jwt 토큰에서 타입 추출
+    public String getTokenTypeFromJWT(String token){
+        Claims claims = parseJwtToken(token);
+        return (String) claims.get("tokenType");
+    }
+
+    // jwt 토큰에서 expire 추출
+    private Date getExpireFromJWT(String token){
+        Claims claims = parseJwtToken(token);
+        return claims.getExpiration();
+    }
+
+    // jwt 토큰에서 expire 남은 시간 계산
+    public long getExpireRemainFromJWT(String token){
+        Date now = new Date();
+        return getExpireFromJWT(token).getTime() - now.getTime();
+    }
+    
+    // jwt 토큰 유효성 검사
     public boolean validateToken(String token){
         try {
             Jwts.parser().setSigningKey(jwt_secret).parseClaimsJws(token);
