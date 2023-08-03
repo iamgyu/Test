@@ -16,7 +16,7 @@ public class Todo_Sqlite {
     private Member_Sqlite member_sqlite = new Member_Sqlite();
     Map<String, String> mapping = MemberDto.mapping;
 
-    public void insertDB(String uuid, TodoDto todoDto){
+    public void insertDB(String id, TodoDto todoDto){
         try {
             Connection conn = DriverManager.getConnection(DB_URL);
             Statement stmt = conn.createStatement();
@@ -25,22 +25,6 @@ public class Todo_Sqlite {
                     "account_id INTEGER, FOREIGN KEY (account_id) REFERENCES members(pk))";
             stmt.executeUpdate(sql);
             stmt.close();
-
-            /*
-            String[] resultDecode = Base64Decoder(uuid);
-            String id = resultDecode[0];
-            String pwd = resultDecode[1];
-
-            int check_member = member_sqlite.checkMember(id, pwd);   // return member pk
-            */
-
-            String id = null;
-            for(Map.Entry<String, String> entry : mapping.entrySet()){
-                if(entry.getValue().equals(uuid)){
-                    id = entry.getKey();
-                    break;
-                }
-            }
 
             int check_member = member_sqlite.checkMemberId(id);
 
@@ -91,27 +75,11 @@ public class Todo_Sqlite {
          return jsonObject;
     }
 
-    public JSONObject selectOneDB(String uuid){
+    public JSONObject selectOneDB(String id){
         Map<String, Object> map = new HashMap<>();
         try {
             Connection conn = DriverManager.getConnection(DB_URL);
             Statement stmt = conn.createStatement();
-
-            /*
-            String[] resultDecode = Base64Decoder(encodeData);
-            String id = resultDecode[0];
-            String pwd = resultDecode[1];
-
-            int check_member = member_sqlite.checkMember(id, pwd);   // return member pk
-            */
-
-            String id = null;
-            for(Map.Entry<String, String> entry : mapping.entrySet()){
-                if(entry.getValue().equals(uuid)){
-                    id = entry.getKey();
-                    break;
-                }
-            }
 
             int check_member = member_sqlite.checkMemberId(id);
 
@@ -144,26 +112,10 @@ public class Todo_Sqlite {
         return jsonObject;
     }
 
-    public void updateDB(int pk, String uuid, TodoDto todoDto){
+    public void updateDB(int pk, String id, TodoDto todoDto){
         try {
             Connection conn = DriverManager.getConnection(DB_URL);
             Statement stmt = conn.createStatement();
-
-            /*
-            String[] resultDecode = Base64Decoder(encodeData);
-            String id = resultDecode[0];
-            String pwd = resultDecode[1];
-
-            int check_member = member_sqlite.checkMember(id, pwd);   // return member pk
-           */
-
-            String id = null;
-            for(Map.Entry<String, String> entry : mapping.entrySet()){
-                if(entry.getValue().equals(uuid)){
-                    id = entry.getKey();
-                    break;
-                }
-            }
 
             int check_member = member_sqlite.checkMemberId(id);
 
@@ -202,26 +154,10 @@ public class Todo_Sqlite {
         }
     }
 
-    public void deleteDB(int pk, String uuid){
+    public void deleteDB(int pk, String id){
         try {
             Connection conn = DriverManager.getConnection(DB_URL);
             Statement stmt = conn.createStatement();
-
-            /*
-            String[] resultDecode = Base64Decoder(encodeData);
-            String id = resultDecode[0];
-            String pwd = resultDecode[1];
-
-            int check_member = member_sqlite.checkMember(id, pwd);   // return member pk
-            */
-
-            String id = null;
-            for(Map.Entry<String, String> entry : mapping.entrySet()){
-                if(entry.getValue().equals(uuid)){
-                    id = entry.getKey();
-                    break;
-                }
-            }
 
             int check_member = member_sqlite.checkMemberId(id);
 
