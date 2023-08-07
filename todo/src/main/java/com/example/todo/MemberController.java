@@ -23,7 +23,7 @@ public class MemberController {
 
     @PostMapping("/login")
     public JSONObject login(@RequestBody MemberDto memberDto){
-        if(Integer.valueOf(memberService.checkMember(memberDto.getId(), memberDto.getPassword())) != null){
+        if(memberService.checkMemberWithHashPW(memberDto.getId(), memberDto.getPassword())){
             return memberService.login(memberDto.getId());
         }
         return null;

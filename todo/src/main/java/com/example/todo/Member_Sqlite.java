@@ -1,6 +1,7 @@
 package com.example.todo;
 
 import org.json.simple.JSONObject;
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -19,9 +20,13 @@ public class Member_Sqlite {
             stmt.executeUpdate(sql);
             stmt.close();
 
+            // password hash화
+            String hashPassword = BCrypt.hashpw(password, BCrypt.gensalt());
+            
             PreparedStatement pstmt = conn.prepareStatement("INSERT INTO members(id, password) VALUES(?, ?)");
             pstmt.setString(1, id);
-            pstmt.setString(2, password);
+            // hash된 password 추가
+            pstmt.setString(2, hashPassword);
             pstmt.executeUpdate();
             pstmt.close();
 
@@ -75,6 +80,32 @@ public class Member_Sqlite {
             }
 
             return result;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public boolean checkMemberWithHashPW(String id, String password){
+        try {
+            Connection conn = DriverManager.getConnection(DB_URL);
+            Statement stmt = conn.createStatement();
+            String sql = "SELECT password FROM members WHERE id = '" + id + "';";
+            ResultSet rs = stmt.executeQuery(sql);
+            String hashPassword = rs.getString(1);
+            rs.close();
+            stmt.close();
+            conn.close();
+
+            System.out.println(hashPassword);
+            if (hashPassword == null){
+                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+            }
+
+            if (BCrypt.checkpw(password, hashPassword) == false){
+                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+            }
+
+            return true;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

@@ -33,6 +33,9 @@ public class MemberService {
         return member_sqlite.checkMemberId(id);
     }
 
+    public boolean checkMemberWithHashPW(String id, String password){
+        return member_sqlite.checkMemberWithHashPW(id, password);
+    }
     public JSONObject login(String id){
         Map<String, String> map = new HashMap<>();
 
